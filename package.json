@@ -1,5 +1,6 @@
 {
   "name": "jquery-ui-themeroller",
+  "type": "module",
   "version": "0.0.5",
   "main": "lib/themeroller.js",
   "repository": {
@@ -19,16 +20,18 @@
     }
   ],
   "dependencies": {
-    "async": "3.2.0",
-    "gm": "1.23.1",
-    "semver": "7.3.2"
+    "async": "3.2.5",
+    "gm": "1.25.0",
+    "semver": "7.6.0"
   },
   "devDependencies": {
-    "chai": "4.2.0",
-    "jshint": "2.12.0",
-    "mocha": "8.2.1"
+    "chai": "5.1.0",
+    "eslint": "8.57.0",
+    "eslint-config-jquery": "3.0.2",
+    "globals": "15.0.0",
+    "mocha": "10.4.0"
   },
   "scripts": {
-    "test": "jshint lib/*.js test/*.js && mocha"
+    "test": "eslint . && mocha"
   }
 }

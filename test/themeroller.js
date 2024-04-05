@@ -1,33 +1,42 @@
-var expect = require( "chai" ).expect,
-	fs = require( "fs" ),
-	ThemeRoller = require( "../lib/themeroller.js" );
+import fs from "node:fs/promises";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { expect } from "chai";
+import ThemeRoller from "../lib/themeroller.js";
+
+const dirname = path.dirname( fileURLToPath( import.meta.url ) );
 
 describe( "ThemeRoller", function() {
-	var theme;
+	let theme;
 
-	it( "should instantiate", function() {
-		var baseThemeCss = fs.readFileSync( __dirname + "/fixtures/jquery-ui-1.12/base/theme.css" ),
-			vars = require( "./fixtures/vars/base.json" );
+	beforeEach( async function() {
+		const baseThemeCss = await fs.readFile( `${ dirname }/fixtures/jquery-ui-1.12/base/theme.css`, "utf-8" );
+		const varsString = await fs.readFile( `${ dirname }/fixtures/vars/base.json`, "utf-8" );
+		const vars = JSON.parse( varsString );
 
 		theme = new ThemeRoller( baseThemeCss, vars );
+	} );
+
+	it( "should instantiate", async function() {
 		expect( theme ).to.be.an.instanceof( ThemeRoller );
-	});
+	} );
 
-	it( "should generate the theme CSS", function() {
-		expect( theme.css() ).to.equal(
-			fs.readFileSync( __dirname + "/fixtures/jquery-ui-1.12/themes/base.css" ).toString( "utf-8" )
-		);
-	});
+	it( "should generate the theme CSS", async function() {
+		const baseCssFixture = await fs.readFile( dirname + "/fixtures/jquery-ui-1.12/themes/base.css", "utf-8" );
+		expect( theme.css() ).to.equal( baseCssFixture );
+	} );
 
-	it( "should generate images", function( done ) {
-		theme.generateImages(function( error, images ) {
-			try {
-				expect( error ).to.be.null;
-				expect( images ).to.be.an( "object" );
-			} finally {
-				done();
-			}
-		});
-	});
+	it( "should generate images", async function() {
+		return new Promise( ( resolve ) => {
+			theme.generateImages( function( error, images ) {
+				try {
+					expect( error ).to.be.null;
+					expect( images ).to.be.an( "object" );
+				} finally {
+					resolve();
+				}
+			} );
+		} );
+	} );
 
-});
+} );
