@@ -9,32 +9,36 @@ const dirname = path.dirname( fileURLToPath( import.meta.url ) );
 describe( "ThemeRoller", function() {
 	let theme;
 
-	beforeEach( async function() {
-		const baseThemeCss = await fs.readFile( `${ dirname }/fixtures/jquery-ui-1.12/base/theme.css`, "utf-8" );
-		const varsString = await fs.readFile( `${ dirname }/fixtures/vars/base.json`, "utf-8" );
-		const vars = JSON.parse( varsString );
+	[ "1.12.1", "1.13.2" ].forEach( ( jQueryUiVersion ) => {
+		describe( `with jQuery UI ${ jQueryUiVersion }`, function() {
+			beforeEach( async function() {
+				const baseThemeCss = await fs.readFile( `${ dirname }/fixtures/jquery-ui-${ jQueryUiVersion }/base/theme.css`, "utf-8" );
+				const varsString = await fs.readFile( `${ dirname }/fixtures/vars/smoothness.json`, "utf-8" );
+				const vars = JSON.parse( varsString );
 
-		theme = new ThemeRoller( baseThemeCss, vars );
-	} );
+				theme = new ThemeRoller( baseThemeCss, vars, { version: jQueryUiVersion } );
+			} );
 
-	it( "should instantiate", async function() {
-		expect( theme ).to.be.an.instanceof( ThemeRoller );
-	} );
+			it( "should instantiate", async function() {
+				expect( theme ).to.be.an.instanceof( ThemeRoller );
+			} );
 
-	it( "should generate the theme CSS", async function() {
-		const baseCssFixture = await fs.readFile( dirname + "/fixtures/jquery-ui-1.12/themes/base.css", "utf-8" );
-		expect( theme.css() ).to.equal( baseCssFixture );
-	} );
+			it( "should generate the theme CSS", async function() {
+				const smoothnessCssFixture = await fs.readFile( `${ dirname }/fixtures/jquery-ui-${ jQueryUiVersion }/themes/smoothness.css`, "utf-8" );
+				expect( theme.css() ).to.equal( smoothnessCssFixture );
+			} );
 
-	it( "should generate images", async function() {
-		return new Promise( ( resolve ) => {
-			theme.generateImages( function( error, images ) {
-				try {
-					expect( error ).to.be.null;
-					expect( images ).to.be.an( "object" );
-				} finally {
-					resolve();
-				}
+			it( "should generate images", async function() {
+				return new Promise( ( resolve ) => {
+					theme.generateImages( function( error, images ) {
+						try {
+							expect( error ).to.be.null;
+							expect( images ).to.be.an( "object" );
+						} finally {
+							resolve();
+						}
+					} );
+				} );
 			} );
 		} );
 	} );
