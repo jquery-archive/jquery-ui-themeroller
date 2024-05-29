@@ -1,7 +1,7 @@
 {
 	"name": "jquery-ui-themeroller",
 	"type": "module",
-	"version": "0.0.7",
+	"version": "0.0.8",
 	"main": "lib/themeroller.js",
 	"repository": {
 		"type": "git",
