@@ -9,7 +9,7 @@ const dirname = path.dirname( fileURLToPath( import.meta.url ) );
 describe( "ThemeRoller", function() {
 	let theme;
 
-	[ "1.12.1", "1.13.2" ].forEach( ( jQueryUiVersion ) => {
+	[ "1.12.1", "1.13.3" ].forEach( ( jQueryUiVersion ) => {
 		describe( `with jQuery UI ${ jQueryUiVersion }`, function() {
 			beforeEach( async function() {
 				const baseThemeCss = await fs.readFile( `${ dirname }/fixtures/jquery-ui-${ jQueryUiVersion }/base/theme.css`, "utf-8" );
