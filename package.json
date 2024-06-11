@@ -5,7 +5,7 @@
 	"main": "lib/themeroller.js",
 	"repository": {
 		"type": "git",
-		"url": "git://github.com/rxaviers/jquery-ui-themeroller.git"
+		"url": "https://github.com/jquery-archive/jquery-ui-themeroller.git"
 	},
 	"readmeFilename": "README.md",
 	"author": {
@@ -13,12 +13,7 @@
 		"email": "rxaviers@gmail.com",
 		"url": "http://rafael.xavier.blog.br"
 	},
-	"licenses": [
-		{
-			"type": "MIT",
-			"url": "https://github.com/rxaviers/jquery-ui-themeroller/blob/master/LICENSE.txt"
-		}
-	],
+	"license": "MIT",
 	"dependencies": {
 		"async": "3.2.5",
 		"gm": "1.25.0",
